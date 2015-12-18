@@ -4,12 +4,13 @@
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css">
 
 	<base href="/"> 
+	<title>Mikal Anthony Vibal</title>
 	</head>
 	<body ng-controller="myController">
 		<!--<div id="home" ng-bind-html="htmlSafe(home1)"></div>-->
-		<a href="/">home</a>
-		<a href="/about">about</a>
-		<a href="/contact">contact</a>
+		<a href="/#!/">home</a>
+		<a href="/#!/about">about</a>
+		<a href="/#!/contact">contact</a>
 
 		<div ng-view></div>
 
@@ -65,13 +66,13 @@
 	    app.config(function($routeProvider, $locationProvider){
 
 		      $routeProvider
-		          .when('/',{
+		          .when('/#!/',{
 			          	templateUrl: '/home.html',
 		          })
-		          .when('/contact',{
+		          .when('/#!/contact',{
 			          	templateUrl: '/contact.html',
 		          })
-		          .when('/about',{
+		          .when('/#!/about',{
 			          	templateUrl: '/about.html',
 		          })
 		          .otherwise({
