@@ -1,0 +1,89 @@
+<!doctype html>
+<html ng-app="le-test-app">
+	<head>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+
+	<base href="/"> 
+	</head>
+	<body ng-controller="myController">
+		<!--<div id="home" ng-bind-html="htmlSafe(home1)"></div>-->
+		<a href="/">home</a>
+		<a href="/about">about</a>
+		<a href="/contact">contact</a>
+
+		<div ng-view></div>
+
+
+
+		<script type="text/ng-template" id="/home.html">
+		  <div id="home" ng-bind-html="htmlSafe(home)"></div>
+		</script>
+		<script type="text/ng-template" id="/about.html">
+		  <div id="about" ng-bind-html="htmlSafe(home1)"></div>
+		</script>
+		<script type="text/ng-template" id="/contact.html">
+		  <div id="contact" ng-bind-html="htmlSafe(home2)"></div>
+		</script>
+
+
+
+
+
+
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-route.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-sanitize.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.5/modules/datepicker.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.2/toastr.min.js"></script>
+
+		
+		<script type="text/javascript">
+		var home,home1,home2,dumanka;
+		var app=angular.module('le-test-app',['ngRoute','ngSanitize']);
+		app.controller('myController', function($scope, $http, $sce){
+		    $http.get('https://spreadsheets.google.com/feeds/list/1_9uJEQW-H2-r3rIN16VOpzbskfmkCJFQw1KHCTm5wCk/1/public/basic?alt=json').success(function(response) {
+	          	if (response) {
+		            $scope.home = response.feed.entry[0]['content']['$t'];
+		            $scope.home = $scope.home.replace(/_cokwr: /,'');
+		            $scope.home1 = response.feed.entry[1]['content']['$t'];
+		            $scope.home1 = $scope.home1.replace(/_cokwr: /,'');
+		            $scope.home2 = response.feed.entry[2]['content']['$t'];
+		            $scope.home2 = $scope.home2.replace(/_cokwr: /,'');
+			    	//console.log($scope.home2);
+
+	          }
+	          $scope.htmlSafe = function (data) {
+			        return $sce.trustAsHtml(data);
+			  }
+	      	});
+
+	    });
+
+	    app.config(function($routeProvider, $locationProvider){
+
+		      $routeProvider
+		          .when('/',{
+			          	templateUrl: '/home.html',
+		          })
+		          .when('/contact',{
+			          	templateUrl: '/contact.html',
+		          })
+		          .when('/about',{
+			          	templateUrl: '/about.html',
+		          })
+		          .otherwise({
+		          		templateUrl: '/home.html',
+                		controller : 'myController'
+		          });
+
+		           $locationProvider.html5Mode(true);
+		});
+	    
+		</script>
+
+
+	</body>
+</html>
